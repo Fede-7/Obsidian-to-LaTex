@@ -1,0 +1,62 @@
+% !TEX program = lualatex
+\documentclass{unina_doc_class}
+
+% Pacchetti di supporto per tabelle e codice generati da Pandoc
+\usepackage{longtable,booktabs,array}
+\providecommand{\passthrough}[1]{#1}
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% Metadati del documento (impostabili da YAML o usati di default)
+$if(documentname)$
+\gdef\documentname{$documentname$}
+$else$
+\gdef\documentname{Geometria}
+$endif$
+
+$if(documentyear)$
+\gdef\documentyear{$documentyear$}
+$else$
+\gdef\documentyear{A.A. \ 2024-2025}
+$endif$
+
+$if(author)$
+\gdef\author{$author$}
+$else$
+\gdef\author{Federico Dellini}
+$endif$
+
+$if(xauthors)$
+\gdef\xauthors{\hi{\iuser $xauthors$}}
+$else$
+\gdef\xauthors{\hi{\iuser Federico Dellini}}
+$endif$
+
+\pagestyle{plain}
+
+% Colori definiti nel tuo main.tex
+\definecolor{codegreen}{RGB}{80,160,80}
+\definecolor{codegray}{RGB}{130,130,130}
+\definecolor{activeline}{RGB}{220,245,220}
+\definecolor{boxbg}{RGB}{245,245,245}
+\definecolor{mainbg}{RGB}{235,245,255}
+
+\setcounter{secnumdepth}{0}
+
+\widowpenalty10000
+\clubpenalty10000
+
+\graphicspath{ {./sources/} {./Images/} }
+
+\begin{document}
+
+  % Generazione automatica della copertina della classe UNINA
+  \coverpage{26}{\documentyear}{30}{\documentname}
+
+  % Indice dei contenuti
+  \tableofcontents
+
+  % Inserimento del contenuto Markdown convertito da Pandoc
+  $body$
+
+\end{document}

@@ -1,0 +1,18 @@
+{
+    "snyk.advanced.autoSelectOrganization": true,
+    "latex-workshop.latex.autoBuild.run": "onSave",
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "Build project",
+            "tools": ["build-project"]
+        }
+    ],
+    "latex-workshop.latex.tools": [
+        {
+            "name": "build-project",
+            "command": "bash",
+            "args": ["%WORKSPACE_FOLDER%/build/build.sh"],
+            "env": {}
+        }
+    ]
+}

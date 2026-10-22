@@ -1,0 +1,40 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{mermaid}[2026/10/05 Mermaid diagrams via mmdc]
+
+\RequirePackage{graphicx}
+\RequirePackage{shellesc}
+\RequirePackage{fancyvrb}
+
+\newcounter{mermaid}
+\newcommand{\mermaid@input}{}
+\newcommand{\mermaid@output}{}
+\newcommand{\mermaid@directory}{mermaid}
+
+\newenvironment{mermaid}{%
+  \ShellEscape{mkdir -p "\mermaid@directory"}%
+  \edef\mermaid@input{\mermaid@directory/mermaid-\themermaid.mmd}%
+  \edef\mermaid@output{\mermaid@directory/mermaid-\themermaid.pdf}%
+  \VerbatimEnvironment
+  \expandafter\VerbatimOut\expandafter{\mermaid@input}%
+}{%
+  \endVerbatimOut
+  \ifnum\ShellEscapeStatus=1\relax
+    \IfFileExists{\mermaid@output}{}{%
+      \ShellEscape{build/node_modules/.bin/mmdc -i "\mermaid@input" -o "\mermaid@output" --quiet}%
+    }%
+    \IfFileExists{\mermaid@output}{%
+      \includegraphics[
+        width=\linewidth,
+        height=0.36\textheight,
+        keepaspectratio
+      ]{\mermaid@output}%
+    }{%
+      \PackageError{mermaid}{mmdc did not create \mermaid@output}%
+        {Check the Mermaid source and the mmdc installation.}%
+    }%
+  \else
+    \PackageError{mermaid}{Shell escape is disabled}%
+      {Compile with lualatex --shell-escape or pdflatex --shell-escape.}%
+  \fi
+  \stepcounter{mermaid}%
+}

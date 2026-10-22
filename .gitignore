@@ -1,0 +1,34 @@
+# Configurazione locale (contiene percorsi personali)
+.env
+.directory
+
+# Output di compilazione
+pdf/
+*.aux
+*.toc
+*.out
+*.lof
+*.lot
+*.log
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+main.pdf
+main-pass1.*
+
+# Dipendenze Node e file temporanei di Mermaid
+build/node_modules/
+build/mermaid/
+
+# Link simbolici alle note Obsidian (puntano a percorsi locali)
+chapters_md/
+
+# Cartelle temp
+chapters/
+Images/
+mermaid/
+
+
+# Sistema
+.DS_Store
+Thumbs.db

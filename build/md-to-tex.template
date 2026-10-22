@@ -1,0 +1,7 @@
+% Frammento LaTeX per i capitoli inclusi con \input.
+% Usare con: pandoc --top-level-division=chapter --listings
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\providecommand{\passthrough}[1]{#1}
+
+$body$
