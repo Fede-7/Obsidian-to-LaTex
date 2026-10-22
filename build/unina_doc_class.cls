@@ -408,7 +408,7 @@
 %%  \coverpage{<corpo anno>}{<anno>}{<corpo titolo>}{<titolo>}
 %% ------------------------------------------------------------
 \providecommand\ubsrcdir{sources/}   % sovrascritto da build.sh (SOURCES_DIR)
-\providecommand\ub@logo{\ubsrcdir uni_logo.pdf}
+\providecommand\ub@logo{\ubsrcdir uni_logo_example.pdf}
 
 \tikzset{
   mpath/.style={fill=#1, draw=#1, line width=0pt},
@@ -445,11 +445,21 @@
             [anchor=north west, inner sep=0pt, minimum size=3cm] {};
         }
 
-        % Intestazione Università
-        \node (fiitext) at ([xshift=0.25cm] fiisymbol.north east) [align=left, anchor=north west]
-          {{\color{primary!65!black}\Lato\fontsize{10}{12}\selectfont Università degli Studi di Napoli}};
-        \node (fiiname) at ([xshift=0.01cm, yshift=0.2cm] fiitext.south west) [align=left, anchor=north west]
-          {{\color{primary!65!black}\Agency\fontsize{24}{29}\selectfont Federico II}};
+        % Intestazione Università (dinamica: usa variabili da main.tex)
+      \ifdefined\documentUniversity
+        \def\ub@university{\documentUniversity}%
+      \else
+        \def\ub@university{}% Fallback
+      \fi
+      \ifdefined\documentUniName
+        \def\ub@uniname{\documentUniName}%
+      \else
+        \def\ub@uniname{}% Fallback
+      \fi
+      \node (fiitext) at ([xshift=0.25cm] fiisymbol.north east) [align=left, anchor=north west]
+        {{\color{primary!65!black}\Lato\fontsize{10}{12}\selectfont \ub@university}};
+      \node (fiiname) at ([xshift=0.01cm, yshift=0.2cm] fiitext.south west) [align=left, anchor=north west]
+        {{\color{primary!65!black}\Agency\fontsize{24}{29}\selectfont \ub@uniname}};
           
         % Anno Accademico
         \node (academicyear) at ([xshift=-0.5cm] fiitext.north -| 1,1) [align=right, anchor=north east]
@@ -1162,5 +1172,8 @@
 
 % Diagrammi Mermaid (mermaid.sty sta in build/, vedi TEXINPUTS in build.sh)
 \RequirePackage{mermaid}
+
+% Alias
+\let\st\sout  % Definisce \st come alias di \sout
 
 %% End of unina_doc_class.cls

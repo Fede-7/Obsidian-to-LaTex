@@ -1,0 +1,24 @@
+% !TEX program = lualatex
+% !TEX options = --shell-escape
+\documentclass[codelight]{unina_doc_class}
+
+\gdef\documentUniversity{Università di ...}
+\gdef\documentUniName{Nome Università}
+
+\gdef\documentname{Titolo}
+\gdef\documentyear{Anno}
+
+\gdef\author{Autore}
+\pagestyle{plain}
+\gdef\xauthors{\hi{\iuser{Autore}}}
+
+\begin{document}
+  
+  \coverpage{14}{\documentyear}{32}{\documentname}
+
+  \tableofcontents
+
+  \part[Output di esempio]{Esempio}
+  \input{chapters/Example.tex}
+
+\end{document}

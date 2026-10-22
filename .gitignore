@@ -14,8 +14,10 @@ pdf/
 *.fls
 *.fdb_latexmk
 *.synctex.gz
+main.listing
 main.pdf
 main-pass1.*
+sources/uni_logo.pdf
 
 # Dipendenze Node e file temporanei di Mermaid
 build/node_modules/
