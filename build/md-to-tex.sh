@@ -5,8 +5,21 @@ script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 project_dir=$(CDPATH= cd -- "$script_dir/.." && pwd)
 template="$script_dir/md-to-tex.template"
 lua_filter="$script_dir/obsidian_to_latex.lua"
-default_input="$project_dir/chapters_md"
-default_output="$project_dir/chapters"
+
+# Path da .env (se presente), altrimenti i valori predefiniti.
+if [ -f "$project_dir/.env" ]; then
+  set -a
+  . "$project_dir/.env"
+  set +a
+fi
+resolve_path() {
+  case "$1" in
+    /*) printf '%s' "$1" ;;
+    *)  printf '%s' "$project_dir/$1" ;;
+  esac
+}
+default_input=$(resolve_path "${MD_SOURCE_DIR:-chapters_md}")
+default_output=$(resolve_path "${CHAPTERS_DIR:-chapters}")
 
 usage() {
     printf 'Uso: %s [FILE.md [FILE.tex]]\n' "$(basename "$0")"

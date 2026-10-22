@@ -1,8 +1,21 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# La cartella può essere passata come primo argomento, altrimenti usa ./Images
-images_dir="${1:-./Images}"
+# La cartella può essere passata come primo argomento, altrimenti usa IMAGES_DIR
+# del .env (predefinito: Images/ nella radice del progetto).
+script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+project_dir=$(CDPATH= cd -- "$script_dir/.." && pwd)
+if [ -f "$project_dir/.env" ]; then
+  set -a
+  . "$project_dir/.env"
+  set +a
+fi
+images_default="${IMAGES_DIR:-Images}"
+case "$images_default" in
+  /*) ;;
+  *)  images_default="$project_dir/$images_default" ;;
+esac
+images_dir="${1:-$images_default}"
 
 if [ ! -d "$images_dir" ]; then
     echo "❌ Directory $images_dir non trovata!"
