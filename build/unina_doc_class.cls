@@ -59,13 +59,10 @@
 \RequirePackage[hidelinks]{hyperref}
 \RequirePackage{xurl}
 
-<<<<<<< HEAD
-=======
 % Commenta le 2 righe sotto se vuoi vedere i warnings
 \RequirePackage{silence}
 \WarningFilter{fontspec}{Font shape}
 
->>>>>>> temp
 \providecommand\ubimgdir{Images/}   % sovrascritto da build.sh (IMAGES_DIR)
 \graphicspath{{\ubimgdir}}
 
@@ -411,11 +408,7 @@
 %%  \coverpage{<corpo anno>}{<anno>}{<corpo titolo>}{<titolo>}
 %% ------------------------------------------------------------
 \providecommand\ubsrcdir{sources/}   % sovrascritto da build.sh (SOURCES_DIR)
-<<<<<<< HEAD
-\providecommand\ub@logo{\ubsrcdir uni_logo.pdf}
-=======
 \providecommand\ub@logo{\ubsrcdir uni_logo_example.pdf}
->>>>>>> temp
 
 \tikzset{
   mpath/.style={fill=#1, draw=#1, line width=0pt},
