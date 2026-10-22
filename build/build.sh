@@ -78,6 +78,9 @@ if ! command -v mmdc >/dev/null 2>&1; then
   exit 1
 fi
 
+mkdir -p "$script_dir/mermaid"
+rm -f "$script_dir/mermaid/"*.mmd "$script_dir/mermaid/"*.pdf
+
 # ---------------------------------------------------------------------------
 # Formati di uscita. Senza argomenti genera tutti i formati; altrimenti solo
 # quelli indicati:   
@@ -155,4 +158,4 @@ done
 # main.pdf = primo formato richiesto (B5 se si genera tutto)
 cp "$PDF_OUT/main-${formats[0]}.pdf" main.pdf
 
-echo "Compilazione completata -> $PDF_OUT/: $(printf 'main-%s.pdf ' "${formats[@]}")"
+echo "Compilazione completata -> pdf/: $(printf 'main-%s.pdf ' "${formats[@]}")"
