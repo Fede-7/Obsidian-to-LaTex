@@ -2,12 +2,13 @@
 
 set -euo pipefail
 
-set -a
-source "./.env"
-set +a
-
 script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 project_dir=$(CDPATH= cd -- "$script_dir/.." && pwd)
+
+# .env sta nella radice del progetto, qualunque sia la cartella di lancio.
+set -a
+source "$project_dir/.env"
+set +a
 
 # Cartella di destinazione dove creare i collegamenti.
 DEST_DIR="$project_dir/chapters_md"
@@ -60,9 +61,6 @@ if ! command -v mmdc >/dev/null 2>&1; then
   exit 1
 fi
 
-mkdir -p "$script_dir/mermaid"
-rm -f "$script_dir/mermaid/"*.mmd "$script_dir/mermaid/"*.pdf
-
 # ---------------------------------------------------------------------------
 # Formati di uscita. Senza argomenti genera tutti i formati; altrimenti solo
 # quelli indicati:   
@@ -97,7 +95,7 @@ fi
 
 for fmt in "${formats[@]}"; do
   paper_spec "$fmt" >/dev/null || {
-    printf 'Errore: formato "%s" sconosciuto (B5, A4, A5, Letter, Tabloid).\n' "$fmt" >&2
+    printf 'Errore: formato "%s" sconosciuto (B5J, A4, Print2Up, Screen).\n' "$fmt" >&2
     exit 1
   }
 done
@@ -123,8 +121,11 @@ compile_format() {
   cp main.pdf "$project_dir/pdf/main-$fmt.pdf"
 }
 
-mkdir -p "$script_dir/mermaid"
-rm -f "$script_dir/mermaid/"*.mmd "$script_dir/mermaid/"*.pdf
+# Il pacchetto mermaid (unina_doc_class.cls) scrive in mermaid/ alla radice del
+# progetto e NON rigenera un PDF gia' presente: va svuotata a ogni build,
+# altrimenti i diagrammi modificati restano quelli vecchi.
+mkdir -p "$project_dir/mermaid"
+rm -f "$project_dir/mermaid/"*.mmd "$project_dir/mermaid/"*.pdf
 
 for fmt in "${formats[@]}"; do
   compile_format "$fmt"

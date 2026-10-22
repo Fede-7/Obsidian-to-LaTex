@@ -1151,7 +1151,48 @@
 \newunicodechar{✓}{\checkmark}
 % \newunicodechar{&}{}
 
-% Diagrammi Mermaid (mermaid.sty sta in build/, vedi TEXINPUTS in build.sh)
-\RequirePackage{mermaid}
+%% ------------------------------------------------------------
+%%  Diagrammi Mermaid: ambiente \begin{mermaid}...\end{mermaid}
+%%  Il sorgente viene salvato in mermaid/ (alla radice del progetto) e
+%%  compilato in PDF con mmdc (build/node_modules). Richiede
+%%  lualatex --shell-escape. Il PDF gia' esistente non viene rigenerato:
+%%  build.sh svuota mermaid/ a ogni compilazione.
+%% ------------------------------------------------------------
+\RequirePackage{shellesc}
+\RequirePackage{fancyvrb}
+
+\newcounter{mermaid}
+\newcommand{\mermaid@input}{}
+\newcommand{\mermaid@output}{}
+\newcommand{\mermaid@directory}{mermaid}
+
+\newenvironment{mermaid}{%
+  \ShellEscape{mkdir -p "\mermaid@directory"}%
+  \edef\mermaid@input{\mermaid@directory/mermaid-\themermaid.mmd}%
+  \edef\mermaid@output{\mermaid@directory/mermaid-\themermaid.pdf}%
+  \VerbatimEnvironment
+  \expandafter\VerbatimOut\expandafter{\mermaid@input}%
+}{%
+  \endVerbatimOut
+  \ifnum\ShellEscapeStatus=1\relax
+    \IfFileExists{\mermaid@output}{}{%
+      \ShellEscape{build/node_modules/.bin/mmdc -i "\mermaid@input" -o "\mermaid@output" --quiet}%
+    }%
+    \IfFileExists{\mermaid@output}{%
+      \includegraphics[
+        width=\linewidth,
+        height=0.36\textheight,
+        keepaspectratio
+      ]{\mermaid@output}%
+    }{%
+      \PackageError{unina_doc_class}{mmdc did not create \mermaid@output}%
+        {Check the Mermaid source and the mmdc installation.}%
+    }%
+  \else
+    \PackageError{unina_doc_class}{Shell escape is disabled}%
+      {Compile with lualatex --shell-escape.}%
+  \fi
+  \stepcounter{mermaid}%
+}
 
 %% End of unina_doc_class.cls
