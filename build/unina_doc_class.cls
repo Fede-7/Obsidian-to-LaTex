@@ -3,9 +3,11 @@
 %%  Compilare con:  lualatex --shell-escape
 %%
 %%  Struttura del progetto (relativa alla cartella da cui parte lualatex):
-%%     fonts/    font .ttf/.otf
-%%     Images/   immagini (graphicspath)
-%%     sources/  uni_logo.pdf per la copertina
+%%     fonts/    font .ttf/.otf        (FONTS_DIR nel .env)
+%%     Images/   immagini             (IMAGES_DIR nel .env)
+%%     sources/  uni_logo.pdf         (SOURCES_DIR nel .env)
+%%  Le cartelle arrivano da build.sh come macro (\ubfontdir, \ubimgdir,
+%%  \ubsrcdir, \ubmermaiddir); i valori qui sopra sono i predefiniti.
 %% ============================================================
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{unina_doc_class}[Modern Unina Doc Class V2]
@@ -57,7 +59,8 @@
 \RequirePackage[hidelinks]{hyperref}
 \RequirePackage{xurl}
 
-\graphicspath{{Images/}}
+\providecommand\ubimgdir{Images/}   % sovrascritto da build.sh (IMAGES_DIR)
+\graphicspath{{\ubimgdir}}
 
 \usetikzlibrary{arrows.meta, matrix, positioning, fit, backgrounds, trees,
                 shapes.geometric, calc, automata,
@@ -155,7 +158,8 @@
 %%  Un solo punto per il percorso. Se un file manca la classe NON
 %%  si ferma: avvisa e ripiega su \sffamily.
 %% ------------------------------------------------------------
-\newcommand\ub@fontdir{fonts/}
+\providecommand\ubfontdir{fonts/}   % sovrascritto da build.sh (FONTS_DIR)
+\providecommand\ub@fontdir{\ubfontdir}
 
 % \ub@newfont{<comando>}{<nome font>}{<file di controllo, senza estensione>}{<ext>}{<opzioni fontspec>}
 \newcommand\ub@newfont[5]{%
@@ -399,7 +403,8 @@
 %%  Copertina
 %%  \coverpage{<corpo anno>}{<anno>}{<corpo titolo>}{<titolo>}
 %% ------------------------------------------------------------
-\newcommand\ub@logo{sources/uni_logo.pdf}
+\providecommand\ubsrcdir{sources/}   % sovrascritto da build.sh (SOURCES_DIR)
+\providecommand\ub@logo{\ubsrcdir uni_logo.pdf}
 
 \tikzset{
   mpath/.style={fill=#1, draw=#1, line width=0pt},
@@ -1164,7 +1169,8 @@
 \newcounter{mermaid}
 \newcommand{\mermaid@input}{}
 \newcommand{\mermaid@output}{}
-\newcommand{\mermaid@directory}{mermaid}
+\providecommand\ubmermaiddir{mermaid}   % sovrascritto da build.sh (MERMAID_DIR)
+\providecommand{\mermaid@directory}{\ubmermaiddir}
 
 \newenvironment{mermaid}{%
   \ShellEscape{mkdir -p "\mermaid@directory"}%
