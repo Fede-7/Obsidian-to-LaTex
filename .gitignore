@@ -1,7 +1,11 @@
 # Configurazione locale (contiene percorsi personali)
 .env
 .directory
+<<<<<<< HEAD
 .vscode
+=======
+.vscode/
+>>>>>>> temp
 
 # Output di compilazione
 pdf/
@@ -14,8 +18,10 @@ pdf/
 *.fls
 *.fdb_latexmk
 *.synctex.gz
+main.listing
 main.pdf
 main-pass1.*
+sources/uni_logo.pdf
 
 # Dipendenze Node e file temporanei di Mermaid
 build/node_modules/

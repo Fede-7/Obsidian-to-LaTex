@@ -5,7 +5,11 @@ set -euo pipefail
 script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 project_dir=$(CDPATH= cd -- "$script_dir/.." && pwd)
 
+<<<<<<< HEAD
 # .env sta nella radice del progetto, qualunque sia la cartella di lancio.
+=======
+# carico il file .env
+>>>>>>> temp
 set -a
 source "$project_dir/.env"
 set +a
@@ -57,7 +61,11 @@ for command_name in pandoc lualatex; do
 done
 
 # Genera i frammenti LaTeX inclusi da main.tex.
+<<<<<<< HEAD
 "$script_dir/md-to-tex.sh" "$DEST_DIR" "$CHAPTERS_OUT"
+=======
+"$script_dir/md-to-tex.sh" "$MD_DIR" "$CHAPTERS_OUT"
+>>>>>>> temp
 
 # Compila il documento principale e aggiorna l'indice.
 cd "$project_dir"
@@ -121,8 +129,13 @@ compile_format() {
   local fmt=$1
   local paper
   paper=$(paper_spec "$fmt")
+<<<<<<< HEAD
   # Le cartelle arrivano alle classi come macro (\ubfontdir, \ubimgdir, ...):
   # cosi' il LaTeX usa i path del .env senza doverli scrivere nel .cls.
+=======
+
+  # Le cartelle arrivano alle classi come macro (\ubfontdir, \ubimgdir, ...); cosi' il LaTeX usa i path del .env senza doverli scrivere nel .cls.
+>>>>>>> temp
   local tex_input="\\def\\ubpaper{$paper}\\def\\ubfontdir{$FONTS_PATH/}\\def\\ubimgdir{$IMAGES_PATH/}\\def\\ubsrcdir{$SOURCES_PATH/}\\def\\ubmermaiddir{$MERMAID_OUT}\\input{$MAIN_TEX_FILE}"
 
   printf '\n=== Formato %s (%s) ===\n' "$fmt" "$paper"
@@ -131,6 +144,10 @@ compile_format() {
   # essere letto dalla compilazione finale. L'indice dipende dal formato,
   # quindi ogni formato ha le sue due passate.
   rm -f main.aux main.toc main.out main.lof main.lot main.log main-pass1.*
+<<<<<<< HEAD
+=======
+  
+>>>>>>> temp
   # openout_any=a: i path da .env possono essere assoluti (es. MERMAID_DIR),
   # e con la modalita' paranoica di TeX la scrittura del sorgente mermaid fallisce.
   TEXINPUTS="$script_dir:" openout_any=a lualatex --shell-escape -jobname=main-pass1 -interaction=nonstopmode -halt-on-error "$tex_input"
@@ -142,9 +159,14 @@ compile_format() {
   cp main.pdf "$PDF_OUT/main-$fmt.pdf"
 }
 
+<<<<<<< HEAD
 # Il pacchetto mermaid (unina_doc_class.cls) scrive in mermaid/ alla radice del
 # progetto e NON rigenera un PDF gia' presente: va svuotata a ogni build,
 # altrimenti i diagrammi modificati restano quelli vecchi.
+=======
+# Il pacchetto NON rigenera un PDF gia' presente: va svuotata a ogni build, altrimenti i diagrammi modificati restano quelli vecchi.
+
+>>>>>>> temp
 mkdir -p "$MERMAID_OUT"
 rm -f "$MERMAID_OUT/"*.mmd "$MERMAID_OUT/"*.pdf
 

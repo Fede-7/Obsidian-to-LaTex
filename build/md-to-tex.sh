@@ -5,6 +5,10 @@ script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 project_dir=$(CDPATH= cd -- "$script_dir/.." && pwd)
 template="$script_dir/md-to-tex.template"
 lua_filter="$script_dir/obsidian_to_latex.lua"
+<<<<<<< HEAD
+=======
+
+>>>>>>> temp
 # Path da .env (se presente), altrimenti i valori predefiniti.
 if [ -f "$project_dir/.env" ]; then
   set -a
