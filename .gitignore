@@ -1,6 +1,7 @@
 # Configurazione locale (contiene percorsi personali)
 .env
 .directory
+.vscode
 
 # Output di compilazione
 pdf/
