@@ -131,10 +131,12 @@ compile_format() {
   # essere letto dalla compilazione finale. L'indice dipende dal formato,
   # quindi ogni formato ha le sue due passate.
   rm -f main.aux main.toc main.out main.lof main.lot main.log main-pass1.*
-  TEXINPUTS="$script_dir:" lualatex --shell-escape -jobname=main-pass1 -interaction=nonstopmode -halt-on-error "$tex_input"
+  # openout_any=a: i path da .env possono essere assoluti (es. MERMAID_DIR),
+  # e con la modalita' paranoica di TeX la scrittura del sorgente mermaid fallisce.
+  TEXINPUTS="$script_dir:" openout_any=a lualatex --shell-escape -jobname=main-pass1 -interaction=nonstopmode -halt-on-error "$tex_input"
   cp main-pass1.toc main.toc
   rm -f main.aux main.out main.log main-pass1.*
-  TEXINPUTS="$script_dir:" lualatex --shell-escape -jobname=main -interaction=nonstopmode -halt-on-error "$tex_input"
+  TEXINPUTS="$script_dir:" openout_any=a lualatex --shell-escape -jobname=main -interaction=nonstopmode -halt-on-error "$tex_input"
 
   mkdir -p "$PDF_OUT"
   cp main.pdf "$PDF_OUT/main-$fmt.pdf"
