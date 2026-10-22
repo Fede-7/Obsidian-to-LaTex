@@ -59,6 +59,10 @@
 \RequirePackage[hidelinks]{hyperref}
 \RequirePackage{xurl}
 
+% Commenta le 2 righe sotto se vuoi vedere i warnings
+\RequirePackage{silence}
+\WarningFilter{fontspec}{Font shape}
+
 \providecommand\ubimgdir{Images/}   % sovrascritto da build.sh (IMAGES_DIR)
 \graphicspath{{\ubimgdir}}
 
